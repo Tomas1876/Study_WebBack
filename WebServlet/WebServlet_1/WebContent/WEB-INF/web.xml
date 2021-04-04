@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_4_0.xsd" id="WebApp_ID" version="4.0">
+  <display-name>WebServlet_1</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  <!-- 주소 매핑하기 
+  	클라이언트가 localhost:8090/WebServlet/simple 요청이 오면
+  	com.SimpleController 를 컴파일 해서 돌려준다
+  	바로 저 url-pattern이 그 요청이다 정확하게 일치해야 함  
+  -->
+  <!--  자바파일은 클라이언트가 직접 부를 수 없으므로 누군가에게 요청하고, 그 요청에 따라 자바파일이 실행되도록 해야 한다 -->
+  <servlet>
+  <servlet-name>simplecontroller</servlet-name> <!-- 가명칭이라 임의로 지정 가능 -->
+  <servlet-class>com.SimpleController</servlet-class> <!-- 패키지.클래스명 정확하게!!!!! 적어야함 -->
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>simplecontroller</servlet-name>
+  	<url-pattern>/simple</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+  	<servlet-name>frontcontroller</servlet-name>
+  	<servlet-class>com.board.FrontBoardController</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  <servlet-name>frontcontroller</servlet-name>
+  	<url-pattern>/board</url-pattern>
+  </servlet-mapping>
+  
+  
+</web-app>
