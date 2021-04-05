@@ -128,4 +128,36 @@ public class memodao {
 	}
 
 	// 필요하다면 기타 등등
+	
+	// id 존재여부를 확인할 함수
+	public String isCheckById(String id) {
+		
+		String ismemoid=null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
+		String sql="select id from memo where id=?";
+
+		try {
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setString(1, id);
+			  		
+			  rs = pstmt.executeQuery();
+			  if(rs.next()) {
+				  //같은 ID 존재
+				  ismemoid = "false";
+			  }else {
+				  //사용가능한 ID
+				  ismemoid = "true";
+			  }
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		}finally {
+			SingletonHelper.close(rs);
+			SingletonHelper.close(pstmt);
+		}
+		
+		return ismemoid;
+		
+	}
 }
