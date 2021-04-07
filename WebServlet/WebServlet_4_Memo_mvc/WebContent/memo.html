@@ -29,6 +29,7 @@
 			  }
 			return httpReq;	  
 		}
+		
 		function handlerStateChange(){
 			if(httpReq.readyState == 4){  //1. 서버에서 응답이 왔다면
 	  			if(httpReq.status >= 200 && httpReq.status < 300){
