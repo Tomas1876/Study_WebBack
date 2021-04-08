@@ -8,21 +8,18 @@ import java.sql.Statement;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-
-//POOL 방식을 더 편하게 하려고 Helper 생성
-
+//POOL
 public class ConnectionHelper {
-
 	public static Connection getConnection(String dbname) {
 
 		if (dbname.toLowerCase().equals("oracle")) {
 			try {
-				Context initContext = new InitialContext();
-				DataSource source = (DataSource) initContext.lookup("java:comp/env/jdbc/oracle");
-				Connection conn = source.getConnection();
-				return conn;
+					Context initContext = new InitialContext();
+					DataSource source = (DataSource) initContext.lookup("java:comp/env/jdbc/oracle");
+					Connection conn = source.getConnection();
+					return conn;
 			} catch (Exception ex) {
 				System.out.println("connection" + ex.getMessage());
 				return null;
@@ -50,46 +47,48 @@ public class ConnectionHelper {
 		}
 
 	}
-
-	// close 함수들
+	
+	
+	
+	
 	public static void close(Connection conn) {
-		if (conn != null) {
+		if(conn != null) {
 			try {
-				conn.close();
+				 conn.close();
 			} catch (Exception e) {
-
+				
 			}
 		}
 	}
-
+	
 	public static void close(Statement stmt) {
-		if (stmt != null) {
+		if(stmt != null) {
 			try {
 				stmt.close();
 			} catch (Exception e) {
-
+				
 			}
 		}
 	}
-
+	
 	public static void close(PreparedStatement pstmt) {
-		if (pstmt != null) {
+		if(pstmt != null) {
 			try {
 				pstmt.close();
 			} catch (Exception e) {
-
+				
 			}
 		}
 	}
-
+	
 	public static void close(ResultSet rs) {
-		if (rs != null) {
+		if(rs != null) {
 			try {
 				rs.close();
 			} catch (Exception e) {
-
+				
 			}
 		}
 	}
-
+	
 }

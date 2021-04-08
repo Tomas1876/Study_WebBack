@@ -23,7 +23,7 @@
 	
 	out.print("db 연결여부 : " + conn.isClosed() + "<br>");
 	
-	//POINT 반드시 반환 해야
+	//POINT 반드시 집에 가실때 반환
 	conn.close(); //반환 (POOL)
 	
 	out.print("db 연결여부 : " + conn.isClosed() + "<br>");

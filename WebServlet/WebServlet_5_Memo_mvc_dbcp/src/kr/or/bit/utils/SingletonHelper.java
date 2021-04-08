@@ -19,10 +19,10 @@ public class SingletonHelper {
 		try {
 			 if(dsn.equals("oracle")) {
 				    Class.forName("oracle.jdbc.OracleDriver");
-			  		conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.218:1521:xe","bituser","1004");
+			  		conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","bituser","1004");
 			 }else if(dsn.equals("mysql")) {
 				    Class.forName("com.mysql.cj.jdbc.Driver");
-				    conn = DriverManager.getConnection("jdbc:mysql://192.168.0.218:3306/sampledb?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=true","bituser","1004");
+				    conn = DriverManager.getConnection("jdbc:mysql://192.168.0.8:3306/sampledb?characterEncoding=UTF-8&serverTimezone=UTC&useSSL=true","bituser","1004");
 			 }
 		 }catch (Exception e) {
 			System.out.println(e.getMessage());

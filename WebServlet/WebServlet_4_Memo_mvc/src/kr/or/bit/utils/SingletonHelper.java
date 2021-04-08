@@ -28,7 +28,7 @@ public class SingletonHelper {
 			try {
 				if(dsn.equals("oracle")) {
 					Class.forName("oracle.jdbc.OracleDriver");
-					conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.5:1521:xe","bituser","1004");
+					conn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.0.8:1521:xe","bituser","1004");
 				}
 			}catch (Exception e) {
 					// TODO Auto-generated catch block

@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 import kr.or.bit.dto.memo;
 import kr.or.bit.utils.ConnectionHelper;
 
+
 /*
 1. db 연결
 2. CRUD 함수 생성 (1개의 테이블에 대해서) >> memo 테이블
@@ -29,152 +30,166 @@ ArrayList  , HashMap  처음 (복습 수업)
 
 */
 public class memodao {
-
+	
 	/*
-	 * 싱글톤을 사용한 DB연결 은 학습용이니 더 이상 사용하지 않는다 Connection conn = null;
-	 * 
-	 * public memodao() { conn = SingletonHelper.getConnection("oracle");
-	 * //singleton }
-	 */
-
-	// POOL
+	싱글톤을 사용한  DB연결 은 학습용 .... 더 이상은 
+	Connection conn = null;
+	
+	public memodao() {
+		conn = SingletonHelper.getConnection("oracle"); //singleton
+	}
+	*/
+	
+	//POOL 
 	/*
-	 * 페이지 많아지면 유지보수하기 어려운 코드 DataSource ds = null; public memodao() { try { Context
-	 * context = new InitialContext(); ds =
-	 * (DataSource)context.lookup("java:comp/env/jdbc/oracle"); //java:comp/env/ +
-	 * jdbc/oracle 이름 => 정해진 약속 } catch (NamingException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
-
-	// 전체조회
-	public List<memo> getMemoList() throws SQLException {
-
+	DataSource ds = null;
+	public memodao() {
+		try {
+			    Context  context = new InitialContext();
+			    ds = (DataSource)context.lookup("java:comp/env/jdbc/oracle");  //java:comp/env/  +  jdbc/oracle   이름  => 정해진 약속
+		} catch (NamingException e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	*/
+	
+	//전체조회
+	public List<memo> getMemoList() throws SQLException{
+		
 		PreparedStatement pstmt = null;
-		String sql = "select id, email , content from memo";
-
-		// POOL//////////////////////////////
-		Connection conn = ConnectionHelper.getConnection("oracpe");
+		String sql="select id, email , content from memo";
+		
+		//POOL//////////////////////////////
+		Connection conn = ConnectionHelper.getConnection("oracle");
 		/////////////////////////////////////
-
+		
 		pstmt = conn.prepareStatement(sql);
 		ResultSet rs = pstmt.executeQuery();
-
-		List<memo> memolist = new ArrayList<memo>(); // POINT
-		// [new memo()][new memo()][new memo()][new memo()]
-		while (rs.next()) {
+		
+		List<memo> memolist = new ArrayList<memo>(); //POINT
+		//[new memo()][new memo()][new memo()][new memo()]
+		while(rs.next()) {
 			memo m = new memo();
 			m.setId(rs.getString("id"));
 			m.setEmail(rs.getString("email"));
 			m.setContent(rs.getString("content"));
-
+			
 			memolist.add(m);
 		}
-
+		
 		ConnectionHelper.close(rs);
 		ConnectionHelper.close(pstmt);
+		//POOL 반환 
 		ConnectionHelper.close(conn);
-
+		//
 		return memolist;
 	}
-
-	// 조건조회 (where id=? : 데이터 1건 보장 : id컬럼 > unique , primary key)
+	
+	
+	//조건조회 (where id=? : 데이터 1건 보장 : id컬럼 > unique , primary key)
 	public memo getMemoListById(String id) {
-
-		// select id, email , content from memo where id=?
-		// memo m = new memo();
-		// return m
-
+		
+		//select id, email , content from memo where id=?
+		//memo m = new memo();
+		//return m
+		
 		return null;
-
+		
 	}
-
-	// 삽입
-	// public int insertMemo(String id, String email , String content) parameter 객체
-	// ...
+	
+	
+	//삽입
+	//public int insertMemo(String id, String email , String content) parameter 객체 ...
 	public int insertMemo(memo m) {
-
+		
 		Connection conn = null;
-		int resultrow = 0;
-
+		int resultrow=0;
+		
+		
+		
 		PreparedStatement pstmt = null;
-		String sql = "insert into memo(id,email,content) values(?,?,?)";
-
+		String sql="insert into memo(id,email,content) values(?,?,?)";
+		
 		try {
-			// POOL//////////////////////////////
-			conn = ConnectionHelper.getConnection("oracle");
-			/////////////////////////////////////
-			pstmt = conn.prepareStatement(sql);
-
-			pstmt.setString(1, m.getId());
-			pstmt.setString(2, m.getEmail());
-			pstmt.setString(3, m.getContent());
-
-			resultrow = pstmt.executeUpdate();
-
+				//POOL//////////////////////////////
+				conn = ConnectionHelper.getConnection("oracle");
+				/////////////////////////////////////
+				pstmt = conn.prepareStatement(sql);
+				
+				pstmt.setString(1,m.getId());
+				pstmt.setString(2,m.getEmail());
+				pstmt.setString(3,m.getContent());
+				
+				resultrow = pstmt.executeUpdate();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} finally {
+		}finally {
 			ConnectionHelper.close(pstmt);
-
 			ConnectionHelper.close(conn);
+			
 		}
-
+				
 		return resultrow;
 	}
-
-	// 수정
+	
+	
+	//수정
 	public int updateMemo(memo m) {
 		return 0;
 	}
-
-	// 삭제
+	//삭제
 	public int deleteMemo(String id) {
 		return 0;
 	}
-
-	// 검색
+	//검색
 	public memo idSearchByEmail(String email) {
 		return null;
 	}
-
-	// ID 유무 함수
+	
+	//ID 유무 함수
 	public String isCheckById(String id) {
-
+	
 		Connection conn = null;
-		String ismemoid = null;
+		String ismemoid=null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-
-		String sql = "select id from memo where id=?";
+		
+		String sql="select id from memo where id=?";
 
 		try {
-
-			// POOL
-			conn = ConnectionHelper.getConnection("oracle");
-
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, id);
-
-			rs = pstmt.executeQuery();
-			if (rs.next()) {
-				// 같은 ID 존재
-				ismemoid = "false";
-			} else {
-				// 사용가능한 ID
-				ismemoid = "true";
-			}
+			
+			  //POOL
+			  conn = ConnectionHelper.getConnection("oracle");
+			
+			  pstmt = conn.prepareStatement(sql);
+			  pstmt.setString(1, id);
+			  		
+			  rs = pstmt.executeQuery();
+			  if(rs.next()) {
+				  //같은 ID 존재
+				  ismemoid = "false";
+			  }else {
+				  //사용가능한 ID
+				  ismemoid = "true";
+			  }
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-		} finally {
-			
+		}finally {
 			ConnectionHelper.close(rs);
 			ConnectionHelper.close(pstmt);
 			ConnectionHelper.close(conn);
-			
-			return ismemoid;
-
 		}
+		
+		return ismemoid;
+		
 	}
+	
 }
+
+
+
+
+

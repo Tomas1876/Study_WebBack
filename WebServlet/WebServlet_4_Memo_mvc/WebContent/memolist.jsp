@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<title>Insert title here</title>
 	<style>
-		table { 
+		table {
 	
 		    font-family: arial, sans-serif;
 		    border-collapse: collapse; /* 붕괴하다 , 무너지다 */

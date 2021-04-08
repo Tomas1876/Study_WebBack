@@ -45,7 +45,7 @@ public class MemoList extends HttpServlet {
     		request.setAttribute("memolist", memolist);
     		
     		//view 페이지 설정
-    		RequestDispatcher dis = request.getRequestDispatcher("/memolist.jsp");
+    		RequestDispatcher dis = request.getRequestDispatcher("memolist.jsp");
     		    		
     		//view forward 
     		dis.forward(request, response);
